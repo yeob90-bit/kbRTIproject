@@ -3,10 +3,20 @@ import { createHmac, timingSafeEqual, randomBytes } from 'node:crypto';
 export const SESSION_COOKIE_NAME = 'kb_rti_session';
 export const SESSION_MAX_AGE_SEC = 60 * 60 * 8; // 8시간
 
-const PRODUCTION_ORIGINS = ['https://kb-rti-agent.vercel.app'] as const;
+const PRODUCTION_ORIGINS = [
+  'https://kb-rti-agent.vercel.app',
+  'https://kb-rti-ai-agent.vercel.app',
+] as const;
 const DEV_ORIGINS = ['http://localhost:5173', 'http://localhost:5174'] as const;
 
 export const ALLOWED_ORIGINS = [...PRODUCTION_ORIGINS, ...DEV_ORIGINS] as const;
+
+const ALLOWED_HOSTS = [
+  'kb-rti-agent.vercel.app',
+  'kb-rti-ai-agent.vercel.app',
+  'localhost:5173',
+  'localhost:5174',
+] as const;
 
 export type GuardFailure = {
   ok: false;
@@ -33,20 +43,31 @@ export function isOriginAllowed(origin: string | undefined): boolean {
   return (ALLOWED_ORIGINS as readonly string[]).includes(origin);
 }
 
+export function isHostAllowed(host: string | undefined): boolean {
+  if (!host) return false;
+  return (ALLOWED_HOSTS as readonly string[]).includes(host);
+}
+
 /**
  * Origin 검사는 보조 수단이다. 인증 쿠키 검증을 대체하지 않는다.
- * 브라우저 fetch는 Origin을 포함하므로, Origin이 없거나 허용 목록 밖이면 거부한다.
+ * 같은 사이트 GET(세션 확인)처럼 Origin이 없는 요청은 Host로 보조 확인한다.
  */
 export function assertAllowedOrigin(headers: Record<string, string | string[] | undefined>): GuardSuccess | GuardFailure {
   const origin = getHeaderValue(headers.origin);
-  if (!isOriginAllowed(origin)) {
-    return {
-      ok: false,
-      status: 403,
-      message: '허용되지 않은 요청 Origin입니다.',
-    };
+  if (isOriginAllowed(origin)) {
+    return { ok: true };
   }
-  return { ok: true };
+
+  // same-origin GET 등 Origin 미포함 요청
+  if (!origin && isHostAllowed(getHeaderValue(headers.host))) {
+    return { ok: true };
+  }
+
+  return {
+    ok: false,
+    status: 403,
+    message: '허용되지 않은 요청 Origin입니다.',
+  };
 }
 
 function base64UrlEncode(input: Buffer | string): string {
@@ -76,7 +97,10 @@ function safeEqualString(a: string, b: string): boolean {
 export function verifyAccessCode(input: string, expected: string | undefined): boolean {
   if (!expected || expected.length === 0) return false;
   if (typeof input !== 'string' || input.length === 0) return false;
-  return safeEqualString(input, expected);
+  const normalizedInput = input.trim();
+  const normalizedExpected = expected.trim();
+  if (normalizedInput.length === 0 || normalizedExpected.length === 0) return false;
+  return safeEqualString(normalizedInput, normalizedExpected);
 }
 
 type SessionPayload = {

@@ -34,8 +34,9 @@ function AuthContent({
 export default function AuthenticatedApp() {
   const [authPromise, setAuthPromise] = useState(() => fetchAuthStatus());
 
-  function refreshAuth() {
-    setAuthPromise(fetchAuthStatus());
+  function markAuthenticated() {
+    // 로그인 POST 성공 직후 쿠키 race를 피하기 위해 상태를 즉시 반영한다.
+    setAuthPromise(Promise.resolve('authenticated'));
   }
 
   async function handleLogout() {
@@ -49,7 +50,7 @@ export default function AuthenticatedApp() {
     } catch {
       // 네트워크 오류여도 세션 UI는 게스트로 전환
     }
-    refreshAuth();
+    setAuthPromise(Promise.resolve('guest'));
   }
 
   return (
@@ -62,7 +63,7 @@ export default function AuthenticatedApp() {
     >
       <AuthContent
         authPromise={authPromise}
-        onAuthenticated={refreshAuth}
+        onAuthenticated={markAuthenticated}
         onLogout={() => void handleLogout()}
       />
     </Suspense>
