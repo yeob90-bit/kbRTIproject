@@ -107,11 +107,12 @@ npm run lint        # ESLint 검사
 
 ```text
 GEMINI_API_KEY=your_gemini_api_key
+ACCESS_CODE=your_access_code
+AUTH_SECRET=your_long_random_secret
 ```
 
-- 이 키는 **서버(Vercel 서버리스 함수)에서만** 읽습니다. `VITE_` 접두사를 사용하지 않으며, 브라우저 코드에서는 절대 참조하지 않습니다.
+- 이 키들은 **서버(Vercel 서버리스 함수 / Vite 개발 미들웨어)에서만** 읽습니다. `VITE_` 접두사를 사용하지 않으며, 브라우저 코드에서는 절대 참조하지 않습니다.
 - `.env`, `.env.local`, `.env.*.local` 파일은 `.gitignore`에 포함되어 Git에 커밋되지 않습니다.
-
 ## 7. Vercel 배포방법
 
 1. GitHub 등에 리포지토리를 푸시합니다.
@@ -121,20 +122,21 @@ GEMINI_API_KEY=your_gemini_api_key
    - Build Command: `npm run build`
    - Output Directory: `dist`
    - Install Command: `npm install`
-4. Vercel 프로젝트 설정 → Environment Variables에 `GEMINI_API_KEY`를 등록합니다.
-5. 배포하면 `api/parse-loan.ts`, `api/chat.ts`가 서버리스 함수로 등록됩니다.
+4. Vercel 프로젝트 설정 → Environment Variables에 다음을 등록합니다.
+   - `GEMINI_API_KEY` — Gemini API 키
+   - `ACCESS_CODE` — Agent 영역 입장 코드 (브라우저에 노출하지 않음)
+   - `AUTH_SECRET` — 세션 쿠키 서명용 비밀키 (`ACCESS_CODE`와 다른 16자 이상 임의값)
+5. 배포하면 `api/parse-loan.ts`, `api/chat.ts`, `api/auth.ts`, `api/logout.ts`가 서버리스 함수로 등록됩니다.
 6. `vercel.json`은 SPA 새로고침 시 정적 라우팅이 깨지지 않도록 `/api/*`를 제외한 모든 경로를 `index.html`로 라우팅합니다. (`/showcase` 포함)
 
+**공개/비공개 분리**
+
+| 경로 | 접근 | 내용 |
+| --- | --- | --- |
+| `/showcase` | 공개 | 소개 + API 없는 정적 RTI Demo |
+| `/` | Access Code 인증 | Chat Agent, Gemini 자연어 분석 |
+
 현재 프로덕션 URL: https://kb-rti-agent.vercel.app/
-
-CLI로 배포할 경우:
-
-```bash
-npx vercel
-npx vercel env add GEMINI_API_KEY
-npx vercel --prod
-```
-
 ## 8. 계산식
 
 | 항목 | 계산식 |
@@ -189,7 +191,7 @@ npm run test
 - `src/test/validation.test.ts` — 유효성 검사·개인정보 탐지
 - `src/test/rtiTools.test.ts` — Agent 계산 도구
 
-명세서의 계산 테스트 1(월 임대료 2천만원, 대출 38.1억원 등) 케이스가 포함되어 있으며, 현재 **30개 테스트**가 통과합니다.
+명세서의 계산 테스트 1(월 임대료 2천만원, 대출 38.1억원 등) 케이스가 포함되어 있으며, 현재 **36개 테스트**가 통과합니다.
 
 ## 12. 주요 파일 설명
 

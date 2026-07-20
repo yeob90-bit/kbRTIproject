@@ -11,12 +11,20 @@ export function ShowcaseFooter() {
         <p className="mt-4 text-xs text-gray-500">
           KB국민은행 공식 서비스가 아닌 업무 자동화 포트폴리오 프로젝트입니다.
         </p>
-        <a
-          href="/"
-          className="mt-6 inline-flex min-h-10 items-center text-sm font-medium text-gold-300 underline-offset-4 hover:text-gold-200 hover:underline"
-        >
-          Agent로 돌아가기
-        </a>
+        <div className="mt-6 flex flex-wrap gap-4">
+          <a
+            href="/showcase#demo"
+            className="inline-flex min-h-10 items-center text-sm font-medium text-gold-300 underline-offset-4 hover:text-gold-200 hover:underline"
+          >
+            정적 데모로 이동
+          </a>
+          <a
+            href="/"
+            className="inline-flex min-h-10 items-center text-sm font-medium text-gold-300 underline-offset-4 hover:text-gold-200 hover:underline"
+          >
+            인증 후 실제 Agent 사용
+          </a>
+        </div>
       </div>
     </footer>
   );

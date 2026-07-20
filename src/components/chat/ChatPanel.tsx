@@ -54,7 +54,10 @@ export function ChatPanel({ currentConditions, onToolResult }: ChatPanelProps) {
   const [localError, setLocalError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const transport = useMemo(() => new DefaultChatTransport({ api: '/api/chat' }), []);
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: '/api/chat', credentials: 'include' }),
+    [],
+  );
 
   const { messages, sendMessage, status, error, setMessages, stop, clearError } = useChat({
     transport,

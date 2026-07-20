@@ -29,7 +29,7 @@ import {
   runUpdateConditionsTool,
 } from '../../src/agent/rtiTools.js';
 
-export const MAX_CHAT_TURNS = 40;
+export const MAX_CHAT_TURNS = 20;
 export const MAX_MESSAGE_LENGTH = 2000;
 export const CHAT_TIMEOUT_MS = 90_000;
 

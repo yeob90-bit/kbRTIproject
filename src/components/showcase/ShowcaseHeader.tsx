@@ -19,10 +19,10 @@ export function ShowcaseHeader() {
           ))}
         </nav>
         <a
-          href="/"
+          href="#demo"
           className="inline-flex min-h-10 items-center rounded-md bg-gold-500 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-gold-600"
         >
-          Agent 체험하기
+          정적 데모
         </a>
       </div>
       <nav aria-label="소개 페이지 모바일 메뉴" className="border-t border-gray-100 px-4 py-2 lg:hidden">

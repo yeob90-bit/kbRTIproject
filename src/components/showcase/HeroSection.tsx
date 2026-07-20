@@ -34,18 +34,21 @@ export function HeroSection() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a
-              href="/"
+              href="#demo"
               className="inline-flex min-h-11 items-center rounded-md bg-gold-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gold-600"
             >
-              실제 Agent 체험하기
+              정적 데모 체험하기
             </a>
             <a
-              href="#architecture"
+              href="/"
               className="inline-flex min-h-11 items-center rounded-md border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-800 transition-colors hover:border-gold-400 hover:bg-gold-50"
             >
-              처리 구조 살펴보기
+              인증 후 실제 Agent 사용
             </a>
           </div>
+          <p className="mt-3 text-xs text-gray-500">
+            실제 AI Agent는 Access Code 인증 후 사용할 수 있습니다.
+          </p>
         </div>
 
         <div className="rounded-xl border border-gray-200 bg-gray-50 p-5 shadow-sm sm:p-6">

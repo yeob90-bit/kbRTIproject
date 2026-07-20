@@ -12,10 +12,13 @@ export class LoanParserApiError extends Error {
 
 const STATUS_MESSAGES: Record<number, string> = {
   400: '입력값이 없거나 요청 형식이 올바르지 않습니다.',
+  401: '인증이 필요합니다. Access Code로 다시 로그인해 주세요.',
+  403: '허용되지 않은 요청입니다.',
   404: '조건 추출 API를 찾을 수 없습니다. 개발 서버를 재시작한 뒤 다시 시도해 주세요.',
   405: '허용되지 않은 요청 방식입니다.',
+  413: '요청 본문이 너무 큽니다.',
   422: 'AI가 반환한 결과의 형식이 올바르지 않습니다. 다시 시도해 주세요.',
-  429: '짧은 시간 내 너무 많은 요청이 발생했습니다. 잠시 후 다시 시도해 주세요.',
+  429: '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.',
   500: '서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.',
   502: 'AI 서비스 응답에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
 };
@@ -29,6 +32,7 @@ export async function parseLoanConditions(text: string): Promise<ParsedLoanCondi
   try {
     response = await fetch('/api/parse-loan', {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text }),
     });

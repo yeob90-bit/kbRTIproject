@@ -1,5 +1,6 @@
 export const SHOWCASE_NAV = [
   { href: '#overview', label: '프로젝트 소개' },
+  { href: '#demo', label: '정적 데모' },
   { href: '#workflow', label: '업무 개선' },
   { href: '#architecture', label: '처리 구조' },
   { href: '#features', label: '핵심 기능' },

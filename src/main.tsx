@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
+import AuthenticatedApp from './pages/AuthenticatedApp.tsx'
 import ShowcasePage from './pages/ShowcasePage.tsx'
 
 const normalizedPath =
@@ -9,6 +9,6 @@ const normalizedPath =
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {normalizedPath === '/showcase' ? <ShowcasePage /> : <App />}
+    {normalizedPath === '/showcase' ? <ShowcasePage /> : <AuthenticatedApp />}
   </StrictMode>,
 )

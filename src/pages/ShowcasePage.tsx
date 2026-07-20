@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import { ArchitectureSection } from '../components/showcase/ArchitectureSection';
 import { BeforeAfterSection } from '../components/showcase/BeforeAfterSection';
+import { DemoSection } from '../components/showcase/DemoSection';
 import { FeatureSection } from '../components/showcase/FeatureSection';
 import { HeroSection } from '../components/showcase/HeroSection';
 import { ProblemSection } from '../components/showcase/ProblemSection';
@@ -8,6 +8,7 @@ import { ReliabilitySection } from '../components/showcase/ReliabilitySection';
 import { RoadmapSection } from '../components/showcase/RoadmapSection';
 import { ShowcaseFooter } from '../components/showcase/ShowcaseFooter';
 import { ShowcaseHeader } from '../components/showcase/ShowcaseHeader';
+import { useEffect } from 'react';
 
 function ExperienceCta() {
   return (
@@ -17,15 +18,23 @@ function ExperienceCta() {
           설명보다 직접 확인해보세요
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">
-          상담형 Agent, 자연어 조건 추출, 수동 입력,
-          RTI 계산과 월세별 예상 대출금액을 직접 확인할 수 있습니다.
+          공개 페이지에서는 TypeScript 계산엔진 기반 정적 데모를 바로 체험할 수 있습니다.
+          실제 AI Agent는 Access Code 인증 후 사용할 수 있습니다.
         </p>
-        <a
-          href="/"
-          className="mt-6 inline-flex min-h-11 items-center rounded-md bg-gold-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gold-600"
-        >
-          기업대출 RTI Agent 실행하기
-        </a>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="#demo"
+            className="inline-flex min-h-11 items-center rounded-md bg-gold-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gold-600"
+          >
+            정적 데모 체험하기
+          </a>
+          <a
+            href="/"
+            className="inline-flex min-h-11 items-center rounded-md border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-colors hover:border-gold-400 hover:bg-gold-50"
+          >
+            인증 후 실제 Agent 사용
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -48,6 +57,7 @@ export default function ShowcasePage() {
       <ShowcaseHeader />
       <main>
         <HeroSection />
+        <DemoSection />
         <ProblemSection />
         <BeforeAfterSection />
         <ExperienceCta />

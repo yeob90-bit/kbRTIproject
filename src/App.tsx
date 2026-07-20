@@ -77,7 +77,11 @@ const EMPTY_PARSED_CONDITIONS: ParsedLoanConditions = {
 
 const RATE_SETTINGS_STORAGE_KEY = 'kbRtiAgent.rateSettings.v1';
 
-function App() {
+interface AppProps {
+  onLogout?: () => void;
+}
+
+function App({ onLogout }: AppProps) {
   const [caseInputs, setCaseInputs] = useState<CaseInputs>(DEFAULT_CASE_INPUTS);
   const [rateSettings, setRateSettings, resetRateSettings] = useLocalStorage<RateSettings>(
     RATE_SETTINGS_STORAGE_KEY,
@@ -260,11 +264,32 @@ function App() {
     <div className="min-h-screen bg-gray-100 pb-16">
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-          <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">기업대출 RTI 분석 AI Agent</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            상담형 AI Agent와 대화하며 RTI를 분석하거나, 빠른 입력모드로 조건을 추출할 수 있습니다. RTI·대출한도 등 숫자
-            계산은 TypeScript 계산엔진이 수행하며 AI는 직접 계산하지 않습니다.
-          </p>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">기업대출 RTI 분석 AI Agent</h1>
+              <p className="mt-2 text-sm text-gray-600">
+                상담형 AI Agent와 대화하며 RTI를 분석하거나, 빠른 입력모드로 조건을 추출할 수 있습니다. RTI·대출한도 등 숫자
+                계산은 TypeScript 계산엔진이 수행하며 AI는 직접 계산하지 않습니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href="/showcase"
+                className="inline-flex min-h-10 items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-800 hover:border-gold-400 hover:bg-gold-50"
+              >
+                Showcase
+              </a>
+              {onLogout && (
+                <button
+                  type="button"
+                  onClick={() => void onLogout()}
+                  className="inline-flex min-h-10 items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-800 hover:border-red-300 hover:bg-red-50"
+                >
+                  로그아웃
+                </button>
+              )}
+            </div>
+          </div>
           <div className="mt-4">
             <PrivacyWarning />
           </div>
