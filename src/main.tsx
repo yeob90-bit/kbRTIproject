@@ -2,9 +2,13 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import ShowcasePage from './pages/ShowcasePage.tsx'
+
+const normalizedPath =
+  window.location.pathname.replace(/\/+$/, '') || '/'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    {normalizedPath === '/showcase' ? <ShowcasePage /> : <App />}
   </StrictMode>,
 )
